@@ -1,12 +1,22 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import "./styles.css";
 import NavHeader from "./Components/NavHeader";
 import Home from "./Pages/Home/Home";
 import { Switch, Route } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import routes from "./routes/routes";
 import PostPage from "./Pages/PostPage/PostPage";
 
 export default function App() {
+  const history = useHistory();
+  const location = useLocation();
+
+  useEffect(() => {
+    if(location.pathname === "/") {
+      history.replace("/home");
+    }
+  }, []);
+
   return (
     <Fragment>
       <NavHeader />

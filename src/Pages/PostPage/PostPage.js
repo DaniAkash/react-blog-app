@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Post from "../../Components/Post";
 import { useParams } from "react-router-dom";
 import postData from "../../mockData/postData";
+import networkRequests from "../../services/networkRequests";
 
 const PostPage = () => {
   const { id } = useParams();
@@ -12,8 +13,14 @@ const PostPage = () => {
   });
 
   useEffect(() => {
-    const requiredPost = postData.find(postItem => postItem.id === id);
-    setPost(requiredPost);
+    networkRequests(`/posts/${id}`)
+      .then(result => {
+        const { post = {} } = result;
+        setPost(post);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }, []);
 
   return <Post {...post} />;

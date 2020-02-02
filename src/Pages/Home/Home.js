@@ -4,6 +4,7 @@ import Post from "../../Components/Post";
 import { Button } from "reactstrap";
 import { useHistory } from "react-router-dom";
 import routes from "../../routes/routes";
+import networkRequests from "../../services/networkRequests";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -14,7 +15,14 @@ const Home = () => {
    * behaves as componentDidMount only
    */
   useEffect(() => {
-    setPosts(postData);
+    networkRequests("/posts")
+    .then((result) => {
+      setPosts(result.posts);
+    })
+    .catch(error => {
+      console.error(error);
+      // alert("Something went wrong!");
+    })
   }, []);
 
   return (
