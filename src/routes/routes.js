@@ -3,7 +3,8 @@ const routes = {
   authors: "/authors",
   author: "/author/:authorname",
   newPost: "/new-post",
-  post: "/post/:id"
+  post: "/post/:id",
+  adminLogin: "/login"
 };
 
 export default routes;
