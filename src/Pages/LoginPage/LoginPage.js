@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import networkRequests from "../../services/networkRequests";
 import { useHistory } from "react-router-dom";
 import routes from "../../routes/routes";
 import LoadingIndicator from "../../Components/LoadingIndicator";
+import { AdminContext } from "../../Store/AdminProvider";
+import { USER_LOGGED_IN } from "../../actions/actions";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
+  const store = useContext(AdminContext);
+  const { dispatch } = store;
 
   const updateEmail = event => setEmail(event.target.value);
   const updatePassword = event => setPassword(event.target.value);
@@ -20,8 +24,11 @@ const LoginPage = () => {
     networkRequests("/admin/login", "POST", { email, password })
       .then(response => {
         setIsLoading(false);
-        history.push(routes.newPost);
+        dispatch({
+          type: USER_LOGGED_IN
+        });
         localStorage.setItem('jwtToken', response.jwtToken);
+        history.push(routes.newPost);
       })
       .catch(error => {
         setIsLoading(false);

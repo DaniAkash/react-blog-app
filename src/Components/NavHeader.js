@@ -5,18 +5,30 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem
+  NavItem,
+  Button
 } from "reactstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import routes from "../routes/routes";
-import AdminContext from "../context/AdminContext";
+import { AdminContext } from "../Store/AdminProvider";
+import { USER_LOGGED_OUT } from "../actions/actions";
 
 const NavHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { isLoggedIn } = useContext(AdminContext);
+  const history = useHistory();
+  const store = useContext(AdminContext);
+  const { state, dispatch } = store;
+  const { isLoggedIn } = state;
 
   const toggle = () => setIsOpen(!isOpen);
+
+  const logout = () => {
+    dispatch({
+      type: USER_LOGGED_OUT
+    });
+    history.push(routes.home);
+  };
 
   return (
     <div>
@@ -55,6 +67,19 @@ const NavHeader = () => {
               ) : null}
             </NavItem>
           </Nav>
+          {
+            isLoggedIn
+            ?
+            <Button onClick={logout}>Logout</Button>
+            :
+            <NavLink
+              activeClassName="active"
+              className="nav-link"
+              to={routes.adminLogin}
+            >
+              Login
+            </NavLink>
+          }
         </Collapse>
       </Navbar>
     </div>
