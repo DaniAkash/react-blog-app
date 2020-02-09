@@ -4,11 +4,14 @@ import { BrowserRouter as Router } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import App from "./App";
+import AdminContext from "./context/AdminContext";
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
+  <AdminContext.Provider value={{isLoggedIn: true}}>
+    <Router>
+      <App />
+    </Router>
+  </AdminContext.Provider>,
   rootElement
 );

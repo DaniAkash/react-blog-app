@@ -7,6 +7,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import routes from "./routes/routes";
 import PostPage from "./Pages/PostPage/PostPage";
 import LoginPage from "./Pages/LoginPage/LoginPage";
+import networkRequests from "./services/networkRequests";
 
 export default function App() {
   const history = useHistory();
@@ -16,6 +17,9 @@ export default function App() {
     if(location.pathname === "/") {
       history.replace("/home");
     }
+    networkRequests("/admin/isLoggedIn")
+      .then(console.log)
+      .catch(console.error);
   }, []);
 
   return (

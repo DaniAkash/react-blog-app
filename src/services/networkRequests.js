@@ -5,12 +5,14 @@ const networkRequests = (endPoint, method = "GET", data = {}) =>
 
     const headers = new Headers({
       "Content-Type": "application/json",
+      "Authorization": localStorage.getItem("jwtToken")
     })
 
     const config = {
       method,
       mode: "cors",
-      headers
+      headers,
+      // credential: "include" // must be added to send cookies
     };
 
     if(method !== "GET") {
