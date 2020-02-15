@@ -24,6 +24,7 @@ const NavHeader = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   const logout = () => {
+    localStorage.setItem("jwtToken", "");
     dispatch({
       type: USER_LOGGED_OUT
     });
